@@ -1,0 +1,109 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:tns="http://shoppingcart.mymark.com/api" targetNamespace="http://shoppingcart.mymark.com/api"
+	elementFormDefault="qualified" jaxb:version="2.0">
+
+	<xs:annotation>
+		<xs:appinfo>
+			<jaxb:globalBindings>
+				<jaxb:javaType name="java.util.Calendar" xmlType="xs:date"
+					parseMethod="javax.xml.bind.DatatypeConverter.parseDate"
+					printMethod="javax.xml.bind.DatatypeConverter.printDate" />
+			</jaxb:globalBindings>
+		</xs:appinfo>
+	</xs:annotation>
+
+	<xs:complexType name="ApiFieldError">
+		<xs:sequence>
+			<xs:element name="code" type="xs:string" />
+			<xs:element name="field" type="xs:string" />
+			<xs:element name="message" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ApiGlobalError">
+		<xs:sequence>
+			<xs:element name="code" type="xs:string" />
+			<xs:element name="message" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="ErrorResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="fieldErrors" type="tns:ApiFieldError" maxOccurs="unbounded" minOccurs="0" />
+				<xs:element name="globalErrors" type="tns:ApiGlobalError" maxOccurs="unbounded" minOccurs="0" />				
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+
+	<xs:complexType name="CartLineItemDto">
+		<xs:sequence>
+			<xs:element name="id" type="xs:long" />
+			<xs:element name="productCode" type="xs:string" />
+			<xs:element name="quantity" type="xs:long" />
+			<xs:element name="linePrice" type="xs:double" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CartLineItemDtoList">
+		<xs:sequence>
+			<xs:element name="lineItems" type="tns:CartLineItemDto" maxOccurs="unbounded" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ShoppingCartDto">
+		<xs:sequence>
+			<xs:element name="id" type="xs:long" />
+			<xs:element name="customerIdentifier" type="xs:string" />
+			<xs:element name="lineItems" type="tns:CartLineItemDtoList" />
+			<xs:element name="numLineItems" type="xs:int" />
+			<xs:element name="totalQuantity" type="xs:long" />
+			<xs:element name="totalPrice" type="xs:double" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="ShoppingCartRequest">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="customerIdentifier" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="ShoppingCartResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="cart" type="tns:ShoppingCartDto" />
+			</xs:sequence>
+		</xs:complexType>	
+	</xs:element>
+
+	<xs:element name="DeleteShoppingCartResponse">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="customerIdentifier" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="CartOperation" final="restriction" >
+	    <xs:restriction base="xs:string">
+	        <xs:enumeration value="ADD" />
+	        <xs:enumeration value="REMOVE" />
+	        <xs:enumeration value="REMOVE_ALL" />
+	    </xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="UpdateShoppingCartRequest">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="customerIdentifier" type="xs:string" />
+			<xs:element name="productCode" type="xs:string" />
+			<xs:element name="quantity" type="xs:int" />
+			<xs:element name="operation" type="tns:CartOperation" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>
