@@ -38,18 +38,18 @@ public final class ShoppingCartDTOConverter {
 		ShoppingCartDto dto = new ShoppingCartDto();
 		dto.setId(cart.getId());
 		dto.setCustomerIdentifier(cart.getCustomerIdentifier());
-//		CartLineItemDtoList itemList = toCartLineItemDtoList(cart.getLineItems());
-//		dto.setLineItems(itemList);
+		CartLineItemDtoList itemList = toCartLineItemDtoList(cart.getLineItems());
+		dto.setLineItems(itemList);
 
 		Long totalQuantity = 0L;
 		Double totalPrice = 0.0;
 		
-//		for (CartLineItemDto item : itemList.getLineItems()) {
-//			totalQuantity += item.getQuantity();
-//			totalPrice += item.getLinePrice();				
-//		}
+		for (CartLineItemDto item : itemList.getLineItems()) {
+			totalQuantity += item.getQuantity();
+			totalPrice += (item.getQuantity() * item.getLinePrice());				
+		}
 		dto.setTotalPrice(totalPrice.doubleValue());
-//		dto.setNumLineItems(itemList.getLineItems().size());
+		dto.setNumLineItems(itemList.getLineItems().size());
 		dto.setTotalQuantity(totalQuantity);
 		return dto;
 	}	

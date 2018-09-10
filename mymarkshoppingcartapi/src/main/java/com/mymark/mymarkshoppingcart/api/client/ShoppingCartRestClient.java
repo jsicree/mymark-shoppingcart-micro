@@ -69,13 +69,13 @@ public class ShoppingCartRestClient extends BaseRestClient {
 		return custIdentifierForDeletedCart;		
 	}
 	
-	public ShoppingCartDto getShoppingCart(String userName) throws ClientException {
+	public ShoppingCartDto getShoppingCart(String customerIdentifier) throws ClientException {
 		ShoppingCartResponse response = new ShoppingCartResponse();
 
 		try {
 
 			HttpEntity<?> request = new HttpEntity<Object>(getHeaders());
-	        ResponseEntity<ShoppingCartResponse> resp = getRestTemplate().exchange(getServiceUrl() + "/shoppingcart/" + userName, HttpMethod.GET, request, ShoppingCartResponse.class);
+	        ResponseEntity<ShoppingCartResponse> resp = getRestTemplate().exchange(getServiceUrl() + "/shoppingcart/" + customerIdentifier, HttpMethod.GET, request, ShoppingCartResponse.class);
 	        response = resp.getBody();
 	        
 		} catch (HttpStatusCodeException sce) {

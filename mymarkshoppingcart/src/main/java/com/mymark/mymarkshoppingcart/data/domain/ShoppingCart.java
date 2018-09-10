@@ -25,9 +25,9 @@ public class ShoppingCart {
 	@Column(name = "CUSTOMER_IDENTIFIER", unique=true, nullable=false)
 	private String customerIdentifier;
 
-//	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "shoppingCart", orphanRemoval = true)
-//	@OrderBy("id")
-//	private Set<CartLineItem> lineItems = new LinkedHashSet<CartLineItem>();
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "shoppingCart", orphanRemoval = true)
+	@OrderBy("id")
+	private Set<CartLineItem> lineItems = new LinkedHashSet<CartLineItem>();
 
 	public ShoppingCart() {
 		super();
@@ -61,23 +61,23 @@ public class ShoppingCart {
 		this.customerIdentifier = customerIdentifier;
 	}
 
-//	public Set<CartLineItem> getLineItems() {
-//		return lineItems;
-//	}
+	public Set<CartLineItem> getLineItems() {
+		return lineItems;
+	}
 
-//	public void setLineItems(Set<CartLineItem> lineItems) {
-//		this.lineItems = lineItems;
-//	}
+	public void setLineItems(Set<CartLineItem> lineItems) {
+		this.lineItems = lineItems;
+	}
 
-//	public void addLineItem(CartLineItem item) {
-//        lineItems.add(item);
-//        item.setShoppingCart(this);
-//    }
+	public void addLineItem(CartLineItem item) {
+        lineItems.add(item);
+        item.setShoppingCart(this);
+    }
  
-//    public void removeLineItem(CartLineItem item) {
-//        lineItems.remove(item);
-//        item.setShoppingCart(null);
-//    }
+    public void removeLineItem(CartLineItem item) {
+        lineItems.remove(item);
+        item.setShoppingCart(null);
+    }
     
 	@Override
 	public int hashCode() {
@@ -117,8 +117,8 @@ public class ShoppingCart {
 		builder.append(id);
 		builder.append(", customerIdentifier=");
 		builder.append(customerIdentifier);
-//		builder.append(", lineItems=");
-//		builder.append(lineItems);
+		builder.append(", lineItems=");
+		builder.append(lineItems);
 		builder.append("]");
 		return builder.toString();
 	}	

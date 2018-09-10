@@ -76,19 +76,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		Optional<ShoppingCart> optCart = shoppingCartRepo.findById(cartId);
 
 		if (optCart.isPresent()) {
-//			ShoppingCart cart = optCart.get();
-//			CartLineItem lineItem = null;
-//			lineItem = lineItemRepo.findByShoppingCartAndProductCode(cart, productCode);
-//			if (lineItem != null) {
-//				log.info("Found a lineItem for product and customer");
-//				lineItem.setQuantity(lineItem.getQuantity() + amount);
-//				lineItemRepo.save(lineItem);
-//			} else {
-//				log.info("Did not find a lineItem for product and customer. Creating new lineItem.");
-//				lineItem = new CartLineItem(cart, productCode, productPrice, amount);
-//				cart.addLineItem(lineItem);
-//				cart = shoppingCartRepo.save(cart);
-//			}
+			ShoppingCart cart = optCart.get();
+			CartLineItem lineItem = null;
+			lineItem = lineItemRepo.findByShoppingCartAndProductCode(cart, productCode);
+			if (lineItem != null) {
+				log.info("Found a lineItem for product and customer");
+				lineItem.setQuantity(lineItem.getQuantity() + amount);
+				lineItemRepo.save(lineItem);
+			} else {
+				log.info("Did not find a lineItem for product and customer. Creating new lineItem.");
+				lineItem = new CartLineItem(cart, productCode, productPrice, amount);
+				cart.addLineItem(lineItem);
+				cart = shoppingCartRepo.save(cart);
+			}
 		}
 	}
 
@@ -117,21 +117,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
 		CartLineItem lineItem = null;
 		if (optCart.isPresent()) {
-//			ShoppingCart cart = optCart.get();
-//			lineItem = lineItemRepo.findByShoppingCartAndProductCode(cart, productCode);
-//			if (lineItem != null) {
-//				if (amount == null || ((lineItem.getQuantity() - amount) <= 0)) {
-//					// Remove the item from the cart
-//					cart.removeLineItem(lineItem);
-//					cart = shoppingCartRepo.save(cart);
-//				} else {
-//					// Remove specified amount from a line item
-//					lineItem.setQuantity((lineItem.getQuantity() - amount));
-//					lineItemRepo.save(lineItem);
-//				}
-//			} else {
-//				log.info("Cart does not contain line item");
-//			}
+			ShoppingCart cart = optCart.get();
+			lineItem = lineItemRepo.findByShoppingCartAndProductCode(cart, productCode);
+			if (lineItem != null) {
+				if (amount == null || ((lineItem.getQuantity() - amount) <= 0)) {
+					// Remove the item from the cart
+					cart.removeLineItem(lineItem);
+					cart = shoppingCartRepo.save(cart);
+				} else {
+					// Remove specified amount from a line item
+					lineItem.setQuantity((lineItem.getQuantity() - amount));
+					lineItemRepo.save(lineItem);
+				}
+			} else {
+				log.info("Cart does not contain line item");
+			}
 		} else {
 			log.info("No lineItem found for cart and product. Nothing to remove.");
 		}
