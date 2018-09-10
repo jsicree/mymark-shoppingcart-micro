@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - sudo update-ca-certificates -f
+  pre_build:
+    commands:
+      - echo Running maven clean
+      - mvn install:install-file -Dfile=libs/mymarkcustomerapi.jar -DgroupId=com.mymark -DartifactId=mymarkcustomerapi -Dversion=0.0.1 -Dpackaging=jar
+      - mvn install:install-file -Dfile=libs/mymarkproductapi.jar -DgroupId=com.mymark -DartifactId=mymarkproductapi -Dversion=0.0.1 -Dpackaging=jar
+      - mvn -f mymarkshoppingcart/pom.xml clean
+      - mvn -f mymarkshoppingcartapi/pom.xml clean
+  build:
+    commands:
+      - echo Build started
+      - mvn -f mymarkshoppingcartapi/pom.xml install -DskipTests
+      - mvn -f mymarkshoppingcart/pom.xml install -DskipTests
+      
+  post_build:
+    commands:
+      - mv mymarkshoppingcart/target/mymarkshoppingcartmicro.jar mymarkshoppingcartmicro.jar
+
+artifacts:
+  files:
+    - mymarkshoppingcartmicro.jar
