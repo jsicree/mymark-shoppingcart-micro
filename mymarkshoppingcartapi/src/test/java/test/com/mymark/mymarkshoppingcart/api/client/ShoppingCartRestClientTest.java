@@ -19,7 +19,7 @@ public class ShoppingCartRestClientTest {
 
 	protected final static Logger log = LoggerFactory.getLogger(ShoppingCartRestClientTest.class);
 
-	public static String SERVICE_URL = "http://localhost:8083/api";
+	public static String SERVICE_URL = "http://localhost:8080/mymarkservice/api";
 	public static String USERNAME = "appuser";
 	public static String PASSWORD = "password";
 
